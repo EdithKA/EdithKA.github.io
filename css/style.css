@@ -1,0 +1,49 @@
+/* css/style.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+h1 {
+    margin: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+}
+
+.tab {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tab:hover {
+    background-color: #555;
+}
+
+.content {
+    display: none;
+}
+
+.content.active {
+    display: block;
+}

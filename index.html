@@ -4,31 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tu Nombre - Programadora</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 20px 0;
-        }
-        h1 {
-            margin: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        p {
-            line-height: 1.6;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
@@ -36,21 +12,23 @@
         <p>Programadora</p>
     </header>
     <div class="container">
-        <h2>Sobre mí</h2>
-        <p>Bienvenido/a a mi página web de presentación como programadora. Soy apasionada por la tecnología y tengo experiencia en desarrollar aplicaciones web y móviles.</p>
-        
-        <h2>Experiencia</h2>
-        <p>Tengo experiencia en lenguajes de programación como HTML, CSS, JavaScript, Python, y más. He trabajado en proyectos desafiantes y estoy siempre buscando aprender y mejorar mis habilidades.</p>
-        
-        <h2>Proyectos Destacados</h2>
-        <ul>
-            <li>Proyecto 1: Descripción breve del proyecto.</li>
-            <li>Proyecto 2: Descripción breve del proyecto.</li>
-            <li>Proyecto 3: Descripción breve del proyecto.</li>
-        </ul>
-        
-        <h2>Contacto</h2>
-        <p>Puedes contactarme a través de mi correo electrónico: <a href="mailto:tucorreo@example.com">tucorreo@example.com</a></p>
+        <div class="tabs">
+            <div class="tab" onclick="loadPage('pages/about.html')">Sobre mí</div>
+            <div class="tab" onclick="loadPage('pages/experience.html')">Experiencia</div>
+            <div class="tab" onclick="loadPage('pages/projects.html')">Proyectos</div>
+            <div class="tab" onclick="loadPage('pages/contact.html')">Contacto</div>
+        </div>
+        <div id="page-content"></div>
     </div>
+
+    <script>
+        function loadPage(pageUrl) {
+            fetch(pageUrl)
+                .then(response => response.text())
+                .then(content => {
+                    document.getElementById('page-content').innerHTML = content;
+                });
+        }
+    </script>
 </body>
 </html>
