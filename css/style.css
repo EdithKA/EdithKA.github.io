@@ -975,3 +975,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+.banner-section {
+  text-align: center;
+  margin: 20px 0; /* Ajusta el margen según tus necesidades */
+}
+
+.banner-img {
+  max-width: 20%;
+  height: auto;
+}
+
+.image-container {
+  text-align: center; /* Centra el contenido */
+}
+
+.reduced-center {
+  max-width: 50%; /* Ajusta este valor para reducir la imagen */
+  height: auto;
+  display: inline-block; /* Asegura que la imagen se centre correctamente */
+}
