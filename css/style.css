@@ -303,6 +303,10 @@ h1, h2, h3, h4, h5, h6 {
   transform: skewY(-7deg);
   text-align: center;
 }
+#fh5co-header .fh5co-intro-text2 {
+
+  text-align: center;
+}
 #fh5co-header h1 {
   font-size: 3.5em;
   line-height: 100px;
@@ -487,6 +491,7 @@ h1, h2, h3, h4, h5, h6 {
 .fh5co-project .fh5co-imgs {
   height: calc(100% - 50%);
   position: relative;
+  margin-top: 20px;
 }
 @media screen and (max-width: 768px) {
   .fh5co-project .fh5co-imgs {
