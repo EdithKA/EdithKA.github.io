@@ -1437,6 +1437,14 @@ img {
   height: auto;
 }
 
+.video-container {
+  display: block;
+  max-width: 70%;
+  height: auto;
+  margin-left: 40%;
+  margin-bottom: 35px; 
+}
+
 .img-banner {
   display: block;
   max-width: 70%;
@@ -1445,6 +1453,14 @@ img {
   margin-bottom: 35px; 
 }
 
+.img-figure {
+  display: block;
+  max-width: 40%;
+  height: auto;
+  margin: 0 auto; 
+  margin-bottom: 35px; 
+  margin-left: 45%;
+}
 .img-rounded {
   border-radius: 6px;
 }
