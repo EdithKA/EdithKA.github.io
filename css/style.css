@@ -19,7 +19,7 @@ body {
   font-family: "Work Sans", Arial, sans-serif;
   font-size: 18px;
   line-height: 34px;
-  background: #172c8c;
+  background: #662323;
   font-weight: 300;
   opacity: 0;
   color: #222;
@@ -719,7 +719,7 @@ h1, h2, h3, h4, h5, h6 {
   display: -moz-inline-stack;
   display: inline-block;
   zoom: 1;
-  *display: inline;
+  display: inline;
 }
 .fh5co-social li a {
   padding: 10px;
