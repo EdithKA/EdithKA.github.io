@@ -1017,4 +1017,13 @@
         // Animate skill bars
         const bars = entry.target.querySelectorAll ? entry.target.querySelectorAll('.skill-bar-fill') : [];
         bars.forEach(bar => {
-          setTimeout(() => bar.cla
+          setTimeout(() => bar.classList.add('animated'), 300);
+        });
+      }
+    });
+  }, { threshold: 0.12 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
