@@ -1,251 +1,1111 @@
-	
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edith Kamerman — Game Designer & Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Share+Tech+Mono&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rust: #c4714a;
+    --sand: #e8d5b0;
+    --dusk: #4a3728;
+    --night: #1a1208;
+    --fog: #8fa8a0;
+    --moss: #5a7a5c;
+    --lilac: #9b8faa;
+    --cream: #f5ecd7;
+    --sky: #7aa3b8;
+    --amber: #d4923a;
+  }
 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-	<title>Edith Kamerman Aguilar</title>
+  html { scroll-behavior: smooth; }
 
-	<meta property="og:title" content=""/>
-	<meta property="og:image" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:site_name" content=""/>
-	<meta property="og:description" content=""/>
-	<meta name="twitter:title" content="" />
-	<meta name="twitter:image" content="" />
-	<meta name="twitter:url" content="" />
-	<meta name="twitter:card" content="" />
+  body {
+    background-color: var(--night);
+    color: var(--sand);
+    font-family: 'Crimson Pro', serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: none;
+  }
 
-	<link rel="shortcut icon" type="image/x-icon" href="./images/logo.png" />
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--rust);
+    pointer-events: none;
+    z-index: 9999;
+    image-rendering: pixelated;
+    box-shadow: 
+      8px 0 0 var(--rust),
+      0 8px 0 var(--rust),
+      -8px 0 0 var(--rust),
+      0 -8px 0 var(--rust);
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s;
+  }
 
+  /* PIXEL SCANLINE OVERLAY */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 100;
+  }
 
-	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="shortcut icon" href="favicon.ico">
-	
-	<link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-	<link href='https://fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700italic,700' rel='stylesheet' type='text/css'>
-	<!-- Animate.css -->
-	<link rel="stylesheet" href="css/animate.css">
-	<!-- Flexslider -->
-	<link rel="stylesheet" href="css/flexslider.css">
-	<!-- Icomoon Icon Fonts-->
-	<link rel="stylesheet" href="css/icomoon.css">
-	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="css/bootstrap.css">
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 50;
+    padding: 1.2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(26,18,8,0.95) 0%, transparent 100%);
+  }
 
-	<link rel="stylesheet" id="theme-switch" href="css/style.css">
+  .nav-logo {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--fog);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
 
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
 
-	<!-- jQuery -->
-	<script src="js/jquery.min.js"></script>
-	<!-- jQuery Cookie -->
-	<script src="js/jquery.cookie.js"></script>
-	<script>
-	if ( $.cookie('styleCookie') === 'style-light.css') {
-		$('html, body').css('background', '#eeeeee');
-	} else if ($.cookie('styleCookie') === 'style.css') {
-		$('html, body').css('background', '#662323');
-	}
-	
-	</script>
-	<!-- jQuery Easing -->
-	<script src="js/jquery.easing.1.3.js"></script>
-	<!-- Bootstrap -->
-	<script src="js/bootstrap.min.js"></script>
-	<!-- Waypoints -->
-	<script src="js/jquery.waypoints.min.js"></script>
-	<!-- Flexslider -->
-	<script src="js/jquery.flexslider-min.js"></script>
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fog);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s;
+  }
 
-	<!-- Viewport Units Buggyfill -->
-	<script src="js/viewport-units-buggyfill.js"></script>
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--rust);
+    transition: width 0.3s;
+  }
 
-	<!-- Googgle Map -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCefOgb1ZWqYtj7raVSmN4PL2WkTrc-KyA&sensor=false"></script>
-	<script src="js/google_map.js"></script>
+  .nav-links a:hover {
+    color: var(--sand);
+  }
 
-	
-	<!-- Main JS  -->
-	<script src="js/main.js"></script>
+  .nav-links a:hover::after {
+    width: 100%;
+  }
 
-	<!-- Modernizr JS -->
-	<script src="js/modernizr-2.6.2.min.js"></script>
-	<!-- FOR IE9 below -->
-	<!--[if lt IE 9]>
-	<script src="js/respond.min.js"></script>
-	<![endif]-->
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 6rem 3rem 4rem;
+  }
 
-	</head>
+  /* Pixel art landscape background */
+  .pixel-sky {
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(to bottom,
+        #0d0a1a 0%,
+        #1a1530 20%,
+        #2a2545 35%,
+        #3a3558 50%,
+        #2a1f30 65%,
+        #1a1208 100%
+      );
+  }
 
-	<body>
-	
-	<!-- Loader -->
-	<div class="fh5co-loader"></div>
-	
-	<div id="fh5co-page">
-		<nav id="fh5co-nav" role="navigation">
-			<ul>
-				<li class="animate-box fh5co-active"><a href="index.html" class="transition">My Projects</a></li>
-				<li class="animate-box"><a href="about.html" class="transition">About me</a></li>
-			</ul>
-			
-		</nav>
-		
-		<header id="fh5co-header" role="banner" class="fh5co-project js-fh5co-waypoint no-border" data-colorbg="#222222" data-next="yes" style="position: relative; background-image: url('images/banner.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-			<div class="container">
-				<div class="fh5co-text-wrap animate-box">
-					<div class="fh5co-intro-text">
-						<h1>Edith Kamerman Aguilar</h1>
-						<h2>Video Game Developer</h2>
-					</div>
-					<div class="banner-section">
-						<img src="images/logo.png" alt="Banner" class="banner-img">
-					</div>
-					
-				</div>
-			</div>
-			
-			<div class="btn-next animate-box fh5co-learn-more">
-				<a href="#" class="scroll-btn">
-					<span></span>
-					<i class="icon-chevron-down"></i>
-				</a>
-			</div>
-		</header>
+  /* Stars */
+  .stars {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
 
-		
+  .star {
+    position: absolute;
+    background: var(--sand);
+    image-rendering: pixelated;
+    animation: twinkle 3s infinite;
+  }
 
+  @keyframes twinkle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
 
+  /* Pixel hills */
+  .pixel-hills {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 45%;
+  }
 
+  .hill-back {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: #0f1a1a;
+    clip-path: polygon(
+      0% 100%, 0% 65%, 3% 62%, 6% 55%, 10% 48%, 15% 44%, 20% 42%, 
+      25% 40%, 30% 42%, 35% 38%, 40% 32%, 45% 28%, 50% 30%, 
+      55% 35%, 60% 32%, 65% 28%, 70% 30%, 75% 35%, 80% 38%, 
+      85% 42%, 90% 45%, 95% 50%, 100% 55%, 100% 100%
+    );
+  }
 
-		<!-- data-colorbg="#8cc53e"  -->
-		<div class="fh5co-project js-fh5co-waypoint" data-bgcolor="" data-next="yes">
-			<div class="container">
-				<div class="fh5co-project-inner row">
-					<div class="fh5co-imgs col-md-8 animate-box">
-						<div class="img-holder-1 animate-box">
-							<img src="images/work_1_large.jpg">
-						</div>
-						<div class="img-holder-2 animate-box">
-							<img src="images/work_1_small.jpg">
-						</div>
-					</div>
-					<div class="fh5co-text col-md-4 animate-box">
-						<h2>Isao's Journey</h2>
-						<p></p>
-						<p>Accompany Isao on an intrepid adventure and lend him a hand by helping those most in need. Video game developed with colleagues for Doctors Without Borders</p>
-						<p><a href="isao.html" class="btn btn-light btn-outline transition">View Project</a></p>
-					</div>
-				</div>
+  .hill-mid {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80%;
+    background: #111f15;
+    clip-path: polygon(
+      0% 100%, 0% 75%, 5% 70%, 10% 62%, 18% 55%, 25% 52%, 
+      32% 50%, 38% 52%, 42% 55%, 48% 50%, 55% 42%, 62% 38%, 
+      68% 42%, 73% 48%, 78% 52%, 85% 55%, 92% 60%, 100% 65%, 100% 100%
+    );
+  }
 
-			</div>
-		</div>
-		<!-- data-colorbg="#FF6138" -->
-		<div class="fh5co-project js-fh5co-waypoint fh5co-reverse" data-colorbg="" data-next="yes">
-			<div class="container">
-				<div class="fh5co-project-inner row">
-					<div class="fh5co-imgs col-md-8 col-md-push-4 animate-box" >
-						<div class="img-holder-2 animate-box">
-							<img src="images/one_piece_logo.png" height="500" alt="One Piece Wiki">
-						</div>
-					</div>
-					
-					<div class="fh5co-text col-md-4 col-md-pull-8 animate-box">
-						<h2>One Piece Wiki</h2>
-						<p>Check information about your favorite show such as the characters, crews and arcs. You'll be able to keep your favorites one</p>
-						<p><a href="one_piece.html" class="btn btn-light btn-outline transition">View Project</a></p>
-					</div>
-				</div>
+  .hill-front {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 55%;
+    background: #0d1a0f;
+    clip-path: polygon(
+      0% 100%, 0% 85%, 8% 78%, 15% 72%, 22% 68%, 30% 65%, 
+      38% 68%, 45% 72%, 52% 68%, 58% 62%, 65% 58%, 72% 60%, 
+      78% 65%, 85% 70%, 92% 75%, 100% 80%, 100% 100%
+    );
+  }
 
-			</div>
-		</div>
-		<!-- data-colorbg="#7bc74d" -->
-		<div class="fh5co-project js-fh5co-waypoint fh5co-reverse" data-colorbg="">
-			<div class="container">
-				<div class="fh5co-project-inner row">
-					<div class="fh5co-imgs col-md-8 col-md-push-4 animate-box">
-						<div class="img-holder-1 animate-box">
-							<img src="images/MysteryNook_Tittle.png" alt="Free HTML5 Bootstrap Template">
-						</div>
-					</div>
-					<div class="fh5co-text col-md-4 col-md-pull-8 animate-box">
-						<h2>Mystery Nook</h2>
-						<p>An adventure minigame made for an exam</p>
-						<p><a href="https://edithka.itch.io/mystery-nook" class="btn btn-light btn-outline transition">Play minigame</a></p>
-					</div>
-				</div>
+  /* Window lights */
+  .window-lights {
+    position: absolute;
+    bottom: 15%;
+    left: 0;
+    right: 0;
+    height: 30%;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 5%;
+    gap: 4px;
+    pointer-events: none;
+  }
 
-			</div>
-		</div>
+  .building {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    margin-bottom: 0;
+  }
 
-		<!-- data-colorbg="#2d4059" -->
-		<div class="fh5co-project js-fh5co-waypoint" data-colorbg="" data-next="yes">
-			<div class="container">
-				<div class="fh5co-project-inner row">
-					<div class="fh5co-imgs col-md-8 animate-box">
-						<div class="img-holder-1 animate-box">
-							<img src="images/foxy_1.png">
-						</div>
-					</div>
-					<div class="fh5co-text col-md-4 animate-box">
-						<h2>Foxy The Pirate - 3D Model</h2>
-						<p>3D model of Foxy the pirate, character from the Five Nights at Freddy's saga</p>
-						<p><a href="foxy.html" class="btn btn-light btn-outline transition">View Project</a></p>
-					</div>
-				</div>
+  .win-row {
+    display: flex;
+    gap: 3px;
+  }
 
-			</div>
-		</div>
+  .win {
+    width: 4px;
+    height: 4px;
+    background: var(--amber);
+    opacity: 0;
+    animation: winBlink var(--dur) var(--delay) infinite;
+  }
 
-		<!-- data-colorbg="#2d4059" -->
-		<div class="fh5co-project js-fh5co-waypoint" data-colorbg="" data-next="yes">
-			<div class="container">
-				<div class="fh5co-project-inner row">
-					<div class="fh5co-imgs col-md-8 animate-box">
-						<div class="img-holder-1 animate-box">
-							<img src="images/rocktite_1.png">
-						</div>
-					</div>
-					<div class="fh5co-text col-md-4 animate-box">
-						<h2>Rocktite - 3D Model</h2>
-						<p>3D model of Rocktite, character from The Legend of Zelda: Spirits Tracks</p>
-						<p><a href="rocktite.html" class="btn btn-light btn-outline transition">View Project</a></p>
-					</div>
-				</div>
+  .win.lit { opacity: 0.7; animation: none; }
+  .win.warm { background: #e8b84a; }
+  .win.cool { background: #7ab8d4; opacity: 0.5; }
 
-			</div>
-		</div>
-		<footer id="fh5co-footer" class="js-fh5co-waypoint">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 text-center">
-						<p><small>Design by <a href="http://freehtml5.co/" target="_blank">FREEHTML5.co</a></small> </p>
-						<ul class="fh5co-social">
-							<li>
-								<a href="mailto:edith.kamerman.dev@gmail.com"><i class="icon-mail2"></i> Send Email</a>
-							</li>
-							<li>
-								<a href="https://twitter.com/EdithKamerman"><i class="icon-twitter"></i> Twitter</a>
-							</li>
-							<li>
-								<a href="https://github.com/EdithKA"><i class="icon-github"></i> Github</a>
-							</li>
-							<li>
-								<a href="https://www.linkedin.com/in/edith-kamerman-537aba2a6/"><i class="icon-linkedin"></i> Linkedin</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</footer>
+  @keyframes winBlink {
+    0%, 95%, 100% { opacity: 0; }
+    50% { opacity: 0.6; }
+  }
 
-	</div>
-	
-			
-	
+  /* Moon */
+  .moon {
+    position: absolute;
+    top: 12%;
+    right: 15%;
+    width: 48px;
+    height: 48px;
+    background: var(--cream);
+    box-shadow: 
+      0 0 0 4px #d4c89a,
+      0 0 40px rgba(232,213,176,0.2);
+    image-rendering: pixelated;
+    clip-path: polygon(
+      50% 0%, 75% 6%, 93% 25%, 100% 50%,
+      93% 75%, 75% 93%, 50% 100%, 25% 93%,
+      6% 75%, 0% 50%, 6% 25%, 25% 6%
+    );
+    animation: moonGlow 4s ease-in-out infinite;
+  }
 
-	</body>
+  @keyframes moonGlow {
+    0%, 100% { box-shadow: 0 0 0 4px #d4c89a, 0 0 40px rgba(232,213,176,0.2); }
+    50% { box-shadow: 0 0 0 4px #d4c89a, 0 0 60px rgba(232,213,176,0.35); }
+  }
+
+  /* Hero content */
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    max-width: 700px;
+  }
+
+  .hero-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--fog);
+    margin-bottom: 1.5rem;
+    display: block;
+    animation: fadeDown 1s ease forwards;
+  }
+
+  .hero-name {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 400;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+    animation: fadeDown 1s 0.2s ease both;
+    text-shadow: 0 2px 20px rgba(196,113,74,0.3);
+    letter-spacing: 0.02em;
+  }
+
+  .hero-subtitle {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-style: italic;
+    color: var(--rust);
+    margin-bottom: 2.5rem;
+    animation: fadeDown 1s 0.4s ease both;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    color: var(--fog);
+    max-width: 480px;
+    margin: 0 auto 3rem;
+    animation: fadeDown 1s 0.6s ease both;
+    font-style: italic;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--sand);
+    text-decoration: none;
+    border: 1px solid rgba(196,113,74,0.4);
+    padding: 0.9rem 2rem;
+    transition: all 0.3s;
+    animation: fadeDown 1s 0.8s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--rust);
+    transform: translateX(-101%);
+    transition: transform 0.3s;
+    z-index: -1;
+  }
+
+  .hero-cta:hover::before { transform: translateX(0); }
+  .hero-cta:hover { color: var(--night); border-color: var(--rust); }
+
+  /* Pixel arrow */
+  .pixel-arrow {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(-45deg);
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTION BASE */
+  section {
+    padding: 7rem 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: 'IM Fell English', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--cream);
+    font-weight: 400;
+    margin-bottom: 4rem;
+    line-height: 1.1;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--rust);
+  }
+
+  /* Divider */
+  .pixel-divider {
+    width: 100%;
+    height: 1px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--dusk) 0px, var(--dusk) 4px,
+      transparent 4px, transparent 8px
+    );
+    margin: 0;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--sand);
+    opacity: 0.85;
+    margin-bottom: 1.5rem;
+    font-size: 1.05rem;
+  }
+
+  .about-text p:first-child::first-letter {
+    font-size: 3.5em;
+    font-family: 'IM Fell English', serif;
+    float: left;
+    line-height: 0.75;
+    margin-right: 0.1em;
+    color: var(--rust);
+  }
+
+  .skills-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .skill-item {
+    position: relative;
+  }
+
+  .skill-name {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fog);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .skill-bar-track {
+    height: 4px;
+    background: rgba(255,255,255,0.05);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skill-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rust), var(--amber));
+    width: 0;
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    image-rendering: pixelated;
+  }
+
+  .skill-bar-fill.animated { width: var(--w); }
+
+  /* pixel dots on bar */
+  .skill-bar-fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -2px;
+    width: 8px;
+    height: 8px;
+    background: var(--amber);
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    gap: 2px;
+  }
+
+  .project-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 320px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: border-color 0.3s;
+    cursor: none;
+  }
+
+  .project-card:hover {
+    border-color: rgba(196,113,74,0.3);
+  }
+
+  .project-card:nth-child(even) {
+    direction: rtl;
+  }
+  .project-card:nth-child(even) > * {
+    direction: ltr;
+  }
+
+  .project-visual {
+    position: relative;
+    overflow: hidden;
+    background: var(--dusk);
+  }
+
+  .project-visual-inner {
+    position: absolute;
+    inset: 0;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project-card:hover .project-visual-inner {
+    transform: scale(1.04);
+  }
+
+  /* Individual project visuals */
+  .proj-isao .project-visual-inner {
+    background: 
+      radial-gradient(ellipse at 30% 70%, #1a4a2a 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 30%, #2a3a1a 0%, transparent 50%),
+      #0d1f10;
+  }
+
+  .proj-onepiece .project-visual-inner {
+    background:
+      radial-gradient(ellipse at 50% 80%, #1a2a4a 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, #4a2a1a 0%, transparent 50%),
+      #0d1220;
+  }
+
+  .proj-mystery .project-visual-inner {
+    background:
+      radial-gradient(ellipse at 20% 50%, #2a1a3a 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 60%, #1a2a3a 0%, transparent 50%),
+      #0d0d1a;
+  }
+
+  .proj-foxy .project-visual-inner {
+    background:
+      radial-gradient(ellipse at 50% 40%, #3a1a0a 0%, transparent 60%),
+      radial-gradient(ellipse at 30% 80%, #1a0a0a 0%, transparent 50%),
+      #1a0d0a;
+  }
+
+  .proj-rocktite .project-visual-inner {
+    background:
+      radial-gradient(ellipse at 60% 50%, #1a2a1a 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 30%, #2a3a1a 0%, transparent 50%),
+      #0d150d;
+  }
+
+  /* Pixel art decoration in project visuals */
+  .proj-pixel-art {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    opacity: 0.15;
+    image-rendering: pixelated;
+    font-family: 'Share Tech Mono', monospace;
+    letter-spacing: -0.1em;
+    color: var(--sand);
+    user-select: none;
+  }
+
+  .project-info {
+    padding: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(26,18,8,0.6);
+    backdrop-filter: blur(10px);
+  }
+
+  .project-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 1rem;
+  }
+
+  .project-title {
+    font-family: 'IM Fell English', serif;
+    font-size: 1.9rem;
+    color: var(--cream);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .project-desc {
+    font-size: 0.95rem;
+    color: var(--fog);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rust);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .project-link:hover { color: var(--amber); }
+
+  .project-link .pixel-arrow {
+    border-color: currentColor;
+    transform: rotate(-45deg);
+    transition: transform 0.2s;
+  }
+
+  .project-link:hover .pixel-arrow {
+    transform: rotate(-45deg) translate(2px, -2px);
+  }
+
+  /* PIXEL DECORATION - scattered throughout */
+  .pixel-scatter {
+    position: absolute;
+    image-rendering: pixelated;
+    pointer-events: none;
+    opacity: 0.12;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    text-align: center;
+    padding: 8rem 3rem;
+    position: relative;
+  }
+
+  .contact-section .section-title {
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-desc {
+    font-size: 1.05rem;
+    font-style: italic;
+    color: var(--fog);
+    max-width: 500px;
+    margin: 0 auto 3.5rem;
+  }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--fog);
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: all 0.3s;
+  }
+
+  .contact-link:hover {
+    color: var(--cream);
+    border-color: var(--rust);
+    background: rgba(196,113,74,0.08);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-mono {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(143,168,160,0.4);
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Pixel corner decorations */
+  .pixel-corner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+  }
+
+  .pixel-corner::before, .pixel-corner::after {
+    content: '';
+    position: absolute;
+    background: var(--rust);
+    opacity: 0.5;
+  }
+
+  .pixel-corner.tl { top: 0; left: 0; }
+  .pixel-corner.tl::before { width: 100%; height: 2px; top: 0; }
+  .pixel-corner.tl::after { height: 100%; width: 2px; left: 0; }
+
+  .pixel-corner.br { bottom: 0; right: 0; }
+  .pixel-corner.br::before { width: 100%; height: 2px; bottom: 0; }
+  .pixel-corner.br::after { height: 100%; width: 2px; right: 0; }
+
+  /* Noise texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 90;
+    opacity: 0.5;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .hero-content { padding: 2rem 0; }
+    section { padding: 5rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .project-card { grid-template-columns: 1fr; }
+    .project-card:nth-child(even) { direction: ltr; }
+    .project-visual { min-height: 200px; }
+    .project-info { padding: 2rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .contact-section { padding: 5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">EKA</span>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="pixel-sky"></div>
+
+  <!-- Stars -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Moon -->
+  <div class="moon"></div>
+
+  <!-- Pixel landscape -->
+  <div class="pixel-hills">
+    <div class="hill-back"></div>
+    <div class="hill-mid"></div>
+    <div class="hill-front"></div>
+  </div>
+
+  <!-- Window lights -->
+  <div class="window-lights" id="windowLights"></div>
+
+  <!-- Content -->
+  <div class="hero-content">
+    <span class="hero-label">Game Designer & Developer</span>
+    <h1 class="hero-name">Edith Kamerman</h1>
+    <p class="hero-subtitle">Making worlds worth inhabiting</p>
+    <p class="hero-desc">I build video games and digital experiences — somewhere between code and daydream.</p>
+    <a href="#projects" class="hero-cta">
+      See my work <span class="pixel-arrow"></span>
+    </a>
+  </div>
+</div>
+
+<div class="pixel-divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <span class="section-label reveal">Portfolio</span>
+  <h2 class="section-title reveal">Selected <em>Works</em></h2>
+
+  <div class="projects-grid">
+
+    <!-- Isao's Journey -->
+    <div class="project-card proj-isao reveal">
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="proj-pixel-art">01</div>
+        </div>
+        <div class="pixel-corner tl"></div>
+      </div>
+      <div class="project-info">
+        <span class="project-tag">Video Game · Unity · Collaboration</span>
+        <h3 class="project-title">Isao's Journey</h3>
+        <p class="project-desc">Accompany Isao on an intrepid adventure. A game developed with colleagues for Doctors Without Borders — where play meets purpose.</p>
+        <a href="https://edithka.github.io/isao.html" class="project-link" target="_blank">
+          View project <span class="pixel-arrow"></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- One Piece Wiki -->
+    <div class="project-card proj-onepiece reveal">
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="proj-pixel-art">02</div>
+        </div>
+        <div class="pixel-corner br"></div>
+      </div>
+      <div class="project-info">
+        <span class="project-tag">Web App · JavaScript · API</span>
+        <h3 class="project-title">One Piece Wiki</h3>
+        <p class="project-desc">An interactive encyclopedia for the series — browse characters, crews and arcs, and keep track of your favorites.</p>
+        <a href="https://edithka.github.io/one_piece.html" class="project-link" target="_blank">
+          View project <span class="pixel-arrow"></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Mystery Nook -->
+    <div class="project-card proj-mystery reveal">
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="proj-pixel-art">03</div>
+        </div>
+        <div class="pixel-corner tl"></div>
+      </div>
+      <div class="project-info">
+        <span class="project-tag">Minigame · Itch.io · Adventure</span>
+        <h3 class="project-title">Mystery Nook</h3>
+        <p class="project-desc">A short adventure minigame with atmosphere to spare. Descend into the nook and see what you find.</p>
+        <a href="https://edithka.itch.io/mystery-nook" class="project-link" target="_blank">
+          Play now <span class="pixel-arrow"></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Foxy -->
+    <div class="project-card proj-foxy reveal">
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="proj-pixel-art">04</div>
+        </div>
+        <div class="pixel-corner br"></div>
+      </div>
+      <div class="project-info">
+        <span class="project-tag">3D Modeling · Character Art · FNaF</span>
+        <h3 class="project-title">Foxy the Pirate</h3>
+        <p class="project-desc">A detailed 3D model of Foxy the Pirate from the Five Nights at Freddy's saga — built with care for every rusted bolt.</p>
+        <a href="https://edithka.github.io/foxy.html" class="project-link" target="_blank">
+          View model <span class="pixel-arrow"></span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Rocktite -->
+    <div class="project-card proj-rocktite reveal">
+      <div class="project-visual">
+        <div class="project-visual-inner">
+          <div class="proj-pixel-art">05</div>
+        </div>
+        <div class="pixel-corner tl"></div>
+      </div>
+      <div class="project-info">
+        <span class="project-tag">3D Modeling · Fan Art · Zelda</span>
+        <h3 class="project-title">Rocktite</h3>
+        <p class="project-desc">A 3D model of Rocktite from The Legend of Zelda: Spirit Tracks — a creature rendered with love for the source material.</p>
+        <a href="https://edithka.github.io/rocktite.html" class="project-link" target="_blank">
+          View model <span class="pixel-arrow"></span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="pixel-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <span class="section-label reveal">About me</span>
+  <h2 class="section-title reveal">A little about <em>Edith</em></h2>
+
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm a game designer and developer with a deep love for storytelling, interactive worlds, and the space where art meets code. I believe games are one of the most powerful mediums for human connection.</p>
+      <p>My work spans from narrative-driven experiences to 3D character modeling, always with the same question in mind: <em>what does this feel like to inhabit?</em></p>
+      <p>I've collaborated on projects for humanitarian organizations, built interactive web experiences, and crafted games that linger.</p>
+    </div>
+
+    <div class="skills-list reveal">
+      <div class="skill-item">
+        <span class="skill-name">Game Design</span>
+        <div class="skill-bar-track">
+          <div class="skill-bar-fill" style="--w: 90%"></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Unity / Game Development</span>
+        <div class="skill-bar-track">
+          <div class="skill-bar-fill" style="--w: 82%"></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">3D Modeling</span>
+        <div class="skill-bar-track">
+          <div class="skill-bar-fill" style="--w: 78%"></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">JavaScript / Web Dev</span>
+        <div class="skill-bar-track">
+          <div class="skill-bar-fill" style="--w: 75%"></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Pixel Art & Illustration</span>
+        <div class="skill-bar-track">
+          <div class="skill-bar-fill" style="--w: 85%"></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Narrative Design</span>
+        <div class="skill-bar-track">
+          <div class="skill-bar-fill" style="--w: 80%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pixel-divider"></div>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <span class="section-label reveal">Get in touch</span>
+  <h2 class="section-title reveal">Let's make <em>something</em></h2>
+  <p class="contact-desc reveal">Whether it's a collaboration, a project, or just a conversation — I'd love to hear from you.</p>
+
+  <div class="contact-links reveal">
+    <a href="mailto:edith.kamerman.dev@gmail.com" class="contact-link">
+      ✉ Email
+    </a>
+    <a href="https://github.com/EdithKA" class="contact-link" target="_blank">
+      ⬡ GitHub
+    </a>
+    <a href="https://www.linkedin.com/in/edith-kamerman-537aba2a6/" class="contact-link" target="_blank">
+      ↗ LinkedIn
+    </a>
+    <a href="https://twitter.com/EdithKamerman" class="contact-link" target="_blank">
+      ✦ Twitter
+    </a>
+    <a href="https://edithka.itch.io/" class="contact-link" target="_blank">
+      ◈ Itch.io
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-mono">Edith Kamerman Aguilar — 2025</span>
+  <span class="footer-mono">Game Designer & Developer</span>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+
+  // Generate stars
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 120; i++) {
+    const star = document.createElement('div');
+    star.classList.add('star');
+    const size = Math.random() < 0.7 ? 2 : 4;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 55 + '%';
+    star.style.animationDelay = Math.random() * 4 + 's';
+    star.style.animationDuration = (2 + Math.random() * 4) + 's';
+    starsEl.appendChild(star);
+  }
+
+  // Generate window lights
+  const windowsEl = document.getElementById('windowLights');
+  const configs = [
+    { wins: 3, rows: 4, delay: 80 },
+    { wins: 2, rows: 3, delay: 30 },
+    { wins: 4, rows: 5, delay: 0 },
+    { wins: 2, rows: 3, delay: 60 },
+    { wins: 3, rows: 4, delay: 20 },
+    { wins: 2, rows: 2, delay: 90 },
+    { wins: 4, rows: 5, delay: 45 },
+    { wins: 3, rows: 3, delay: 10 },
+    { wins: 2, rows: 4, delay: 70 },
+    { wins: 3, rows: 3, delay: 50 },
+    { wins: 2, rows: 2, delay: 35 },
+    { wins: 4, rows: 4, delay: 15 },
+  ];
+
+  configs.forEach(cfg => {
+    const building = document.createElement('div');
+    building.classList.add('building');
+    for (let r = 0; r < cfg.rows; r++) {
+      const row = document.createElement('div');
+      row.classList.add('win-row');
+      for (let w = 0; w < cfg.wins; w++) {
+        const win = document.createElement('div');
+        win.classList.add('win');
+        const rand = Math.random();
+        if (rand > 0.4) win.classList.add('lit');
+        if (rand > 0.7) win.classList.add('warm');
+        else if (rand > 0.5) win.classList.add('cool');
+        else {
+          win.style.setProperty('--dur', (3 + Math.random() * 8) + 's');
+          win.style.setProperty('--delay', (Math.random() * 10) + 's');
+        }
+        row.appendChild(win);
+      }
+      building.appendChild(row);
+    }
+    windowsEl.appendChild(building);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Animate skill bars
+        const bars = entry.target.querySelectorAll ? entry.target.querySelectorAll('.skill-bar-fill') : [];
+        bars.forEach(bar => {
+          setTimeout(() => bar.classList.add('animated'), 300);
+        });
+      }
+    });
+  }, { threshold: 0.12 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
 </html>
-

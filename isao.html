@@ -1,227 +1,273 @@
-	
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-	<head>
-	<link rel="shortcut icon" type="image/x-icon" href="./images/yuii.png" />
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Isao's Journey — Edith Kamerman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Share+Tech+Mono&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rust: #c4714a;
+    --sand: #e8d5b0;
+    --dusk: #4a3728;
+    --night: #1a1208;
+    --fog: #8fa8a0;
+    --moss: #5a7a5c;
+    --cream: #f5ecd7;
+    --amber: #d4923a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--night);
+    color: var(--sand);
+    font-family: 'Crimson Pro', serif;
+    font-size: 18px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: none;
+  }
+  .cursor {
+    position: fixed; width: 8px; height: 8px;
+    background: var(--rust); pointer-events: none; z-index: 9999;
+    box-shadow: 8px 0 0 var(--rust), 0 8px 0 var(--rust), -8px 0 0 var(--rust), 0 -8px 0 var(--rust);
+    transform: translate(-50%, -50%); transition: transform 0.05s;
+  }
+  body::after {
+    content: ''; position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none; z-index: 100;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 90; opacity: 0.5;
+  }
 
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Isao's Journey'</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Free HTML5 Bootstrap Template by FREEHTML5.CO" />
-	<me
-	<meta property="og:title" content=""/>
-	<meta property="og:image" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:site_name" content=""/>
-	<meta property="og:description" content=""/>
-	<meta name="twitter:title" content="" />
-	<meta name="twitter:image" content="" />
-	<meta name="twitter:url" content="" />
-	<meta name="twitter:card" content="" />
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 50;
+    padding: 1.2rem 3rem; display: flex; justify-content: space-between; align-items: center;
+    background: linear-gradient(to bottom, rgba(26,18,8,0.97) 0%, transparent 100%);
+  }
+  .nav-logo { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--fog); letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fog); text-decoration: none; position: relative; transition: color 0.3s; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--rust); transition: width 0.3s; }
+  .nav-links a:hover { color: var(--sand); }
+  .nav-links a:hover::after { width: 100%; }
 
-	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="shortcut icon" href="favicon.ico">
-	
-	<link href='https://fonts.googleapis.com/css?family=Work+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
-	<link href='https://fonts.googleapis.com/css?family=Playfair+Display:400,400italic,700italic,700' rel='stylesheet' type='text/css'>
-	<!-- Animate.css -->
-	<link rel="stylesheet" href="css/animate.css">
-	<!-- Flexslider -->
-	<link rel="stylesheet" href="css/flexslider.css">
-	<!-- Icomoon Icon Fonts-->
-	<link rel="stylesheet" href="css/icomoon.css">
-	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="css/bootstrap.css">
+  /* HERO */
+  .project-hero {
+    min-height: 70vh; display: flex; align-items: flex-end;
+    padding: 8rem 3rem 5rem; position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #0d1f10 0%, #1a2a1a 30%, #0f1a08 60%, #1a1208 100%);
+  }
+  .hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 60%, rgba(90,122,92,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 30%, rgba(26,42,26,0.3) 0%, transparent 50%);
+  }
+  /* Stars */
+  .hero-stars { position: absolute; inset: 0; overflow: hidden; }
+  .star { position: absolute; background: var(--sand); image-rendering: pixelated; animation: twinkle 3s infinite; }
+  @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.15; } }
 
-	<link rel="stylesheet" id="theme-switch" href="css/style.css">
-	
-	<!-- jQuery -->
-	<script src="js/jquery.min.js"></script>
-	<!-- jQuery Cookie -->
-	<script src="js/jquery.cookie.js"></script>
-	<script>
-	if ( $.cookie('styleCookie') === 'style-light.css') {
-		$('html, body').css('background', '#eeeeee');
-	} else if ($.cookie('styleCookie') === 'style.css') {
-		$('html, body').css('background', '#662323');
-	}
-	
-	</script>
-	<!-- jQuery Easing -->
-	<script src="js/jquery.easing.1.3.js"></script>
-	<!-- Bootstrap -->
-	<script src="js/bootstrap.min.js"></script>
-	<!-- Waypoints -->
-	<script src="js/jquery.waypoints.min.js"></script>
-	<!-- Flexslider -->
-	<script src="js/jquery.flexslider-min.js"></script>
+  .hero-content { position: relative; z-index: 10; max-width: 700px; }
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--fog);
+    text-decoration: none; margin-bottom: 2rem; transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--rust); }
+  .back-arrow { display: inline-block; width: 6px; height: 6px; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
+  .project-number { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; color: var(--rust); display: block; margin-bottom: 1rem; }
+  .project-hero-title { font-family: 'IM Fell English', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--cream); font-weight: 400; line-height: 1.05; margin-bottom: 1rem; text-shadow: 0 2px 30px rgba(196,113,74,0.2); }
+  .project-hero-tagline { font-family: 'IM Fell English', serif; font-style: italic; font-size: 1.2rem; color: var(--fog); }
 
-	<!-- Viewport Units Buggyfill -->
-	<script src="js/viewport-units-buggyfill.js"></script>
+  /* TAGS */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .tag { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--moss); border: 1px solid rgba(90,122,92,0.3); padding: 0.3rem 0.75rem; }
 
-	<!-- Googgle Map -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCefOgb1ZWqYtj7raVSmN4PL2WkTrc-KyA&sensor=false"></script>
-	<script src="js/google_map.js"></script>
+  /* PIXEL DIVIDER */
+  .pixel-divider { width: 100%; height: 1px; background: repeating-linear-gradient(90deg, var(--dusk) 0px, var(--dusk) 4px, transparent 4px, transparent 8px); }
 
-	
-	<!-- Main JS  -->
-	<script src="js/main.js"></script>
+  /* CONTENT */
+  .project-body { max-width: 900px; margin: 0 auto; padding: 5rem 3rem; }
 
-	<!-- Modernizr JS -->
-	<script src="js/modernizr-2.6.2.min.js"></script>
-	<!-- FOR IE9 below -->
-	<!--[if lt IE 9]>
-	<script src="js/respond.min.js"></script>
-	<![endif]-->
+  .section-block { margin-bottom: 5rem; }
+  .block-label { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--rust); margin-bottom: 0.75rem; display: block; }
+  .block-title { font-family: 'IM Fell English', serif; font-size: 1.8rem; color: var(--cream); font-weight: 400; margin-bottom: 1.5rem; line-height: 1.1; }
+  .block-text { color: var(--sand); opacity: 0.85; font-size: 1.05rem; line-height: 1.8; }
+  .block-text p + p { margin-top: 1rem; }
+  .block-text em { color: var(--rust); font-style: italic; }
 
-	</head>
+  /* VIDEO */
+  .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 2.5rem 0; border: 1px solid rgba(255,255,255,0.06); }
+  .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-	<body>
-	
-	<!-- Loader -->
-	<div class="fh5co-loader"></div>
-	
-	<div id="fh5co-page">
-		<nav id="fh5co-nav" role="navigation">
-			<ul>
-				<li class="animate-box"><a href="index.html" class="transition">My Projects</a></li>
-				<li class="animate-box"><a href="about.html" class="transition">About me</a></li>
-			</ul>
-			
-		</nav>
-		<header id="fh5co-header" role="banner" class="fh5co-project js-fh5co-waypoint no-border" data-colorbg="#222222" data-next="yes">
-			<div class="fh5co-project-inner row">
-					><img src="images/IsaoL.png" class="img-banner" alt="Isao's journey logo">
-			</div>
-			<div class="btn-next animate-box fh5co-learn-more">
-				<a href="#" class="scroll-btn">
-					<span>See more</span>
-					<i class="icon-chevron-down"></i>
-				</a>
-			</div>
-		</header>
+  /* IMAGES */
+  .img-block { margin: 2.5rem 0; border: 1px solid rgba(255,255,255,0.06); overflow: hidden; }
+  .img-block img { width: 100%; display: block; filter: saturate(0.85) brightness(0.95); transition: filter 0.4s; }
+  .img-block:hover img { filter: saturate(1) brightness(1); }
+  .img-caption { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--fog); padding: 0.6rem 1rem; border-top: 1px solid rgba(255,255,255,0.04); }
 
-		<div class="js-fh5co-waypoint fh5co-project-detail" id="fh5co-main" data-colorbg="">
-			<div class="container">
+  .img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 2.5rem 0; }
+  .img-grid .img-block { margin: 0; }
 
+  /* ROLES */
+  .roles-grid { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+  .role-item { display: flex; align-items: center; gap: 0.5rem; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sand); }
+  .role-item::before { content: '▪'; color: var(--rust); }
 
-				<div class="row">
-					<div class="col-md-12">
-						
-						<div class="row row-bottom-padded-sm animate-box">
-							<div class="col-md-3">
-								<h3 class="fh5co-section-heading"><span class="fh5co-number">N<sup>o</sup> 1</span> About Project</h3>
-							</div>
-							<div class="col-md-9">
-								<p class="fh5co-lead"> Lend a hand to Isao and help those who need it most.</p>
-								<p>Isao's Journey is a game project developed together with colleagues from the DDVJ degree at the UJI in order to inform and integrate the little ones about the important work of "Doctors Without Borders". Accompany our protagonist through diverse and varied territories in his important mission to help those most in need. Exploration, investigation and mini-games, what are you waiting for? Try this adventure made by G9Devs.</p>
-							</div>
-						</div>
+  /* LINKS */
+  .link-block { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
+  .project-ext-link {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: 'Share Tech Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--sand);
+    text-decoration: none; border: 1px solid rgba(196,113,74,0.35);
+    padding: 0.8rem 1.5rem; transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .project-ext-link::before { content: ''; position: absolute; inset: 0; background: var(--rust); transform: translateX(-101%); transition: transform 0.3s; z-index: -1; }
+  .project-ext-link:hover::before { transform: translateX(0); }
+  .project-ext-link:hover { color: var(--night); border-color: var(--rust); }
+  .ext-arrow { display: inline-block; width: 6px; height: 6px; border-right: 2px solid currentColor; border-top: 2px solid currentColor; transform: rotate(45deg); }
 
-						
-						<div class="row row-bottom-padded-sm animate-box">
-							<div class="video-container">
-								<iframe width="560" height="315" src="https://www.youtube.com/embed/Cmg7TeyDL2s?si=8-cauDCgH0sdAOPb" 
-									title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
-									encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-								</iframe>
-							</div>
-						</div>
+  /* NAV BETWEEN PROJECTS */
+  .project-nav { display: flex; justify-content: space-between; align-items: center; padding: 3rem 0; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 3rem; }
+  .proj-nav-link { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fog); text-decoration: none; transition: color 0.2s; }
+  .proj-nav-link:hover { color: var(--rust); }
 
-						<div class="image-container">
-							<img src="images/posterdef.jpg" class="img-figure" alt="Free HTML5 Bootstrap Template">
-						</div>
+  /* FOOTER */
+  footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-mono { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(143,168,160,0.4); }
 
-						
-						<div class="row row-bottom-padded-sm animate-box">
-							<div class="col-md-3">
-								<h3 class="fh5co-section-heading"><span class="fh5co-number">N<sup>o</sup> 2</span> Roles</h3>
-							</div>
-							<div class="col-md-9">
-								
-								<ul class="fh5co-list-style-1 fh5co-inline">
-									<li>Game Design</li>
-									<li>Unity</li>
-									<li>UI/UX</li>
-								</ul>
-								<ul class="fh5co-list-style-1 fh5co-inline">
-									
-									
-								</ul>
-							</div>
-							
-						</div>
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
-	
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    .project-hero { padding: 7rem 1.5rem 4rem; }
+    .project-body { padding: 4rem 1.5rem; }
+    .img-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
 
-						<div class="row row-bottom-padded-sm animate-box">
-							<div class="col-md-3">
-								<h3 class="fh5co-section-heading"><span class="fh5co-number">N<sup>o</sup> 2</span> Roles</h3>
-							</div>
-							<div class="col-md-9">
-								
-								<ul class="fh5co-list-style-1 fh5co-inline">
-									<li>Game Design</li>
-									<li>Unity</li>
-									<li>UI/UX</li>
-								</ul>
-								<ul class="fh5co-list-style-1 fh5co-inline">
-									
-									
-								</ul>
-							</div>
-							
-						</div>
+<nav>
+  <a href="index.html" class="nav-logo">EKA</a>
+  <ul class="nav-links">
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
 
-						<div class="row animate-box row-bottom-padded-sm">
-							<div class="col-md-3">
-								<h3 class="fh5co-section-heading"><span class="fh5co-number">N<sup>o</sup> 3</span> Website</h3>
-							</div>
-							<div class="col-md-9">
-								<p><a href="https://g9devs.itch.io/isaos-journey" target="_blank">Isao's Journey</a> in itch.io</p>
-							</div>
-						</div>
+<div class="project-hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stars" id="stars"></div>
+  <div class="hero-content">
+    <a href="index.html" class="back-link"><span class="back-arrow"></span> All projects</a>
+    <span class="project-number">Project 01</span>
+    <h1 class="project-hero-title">Isao's Journey</h1>
+    <p class="project-hero-tagline">An adventure made with purpose.</p>
+    <div class="tag-row">
+      <span class="tag">Game Design</span>
+      <span class="tag">Unity</span>
+      <span class="tag">UI/UX</span>
+      <span class="tag">Collaboration</span>
+    </div>
+  </div>
+</div>
 
-					</div>
-				</div> 
+<div class="pixel-divider"></div>
 
-	
+<div class="project-body">
 
-			</div>
-		</div>
+  <div class="section-block reveal">
+    <span class="block-label">About the project</span>
+    <h2 class="block-title">Lend a hand to those who need it most</h2>
+    <div class="block-text">
+      <p>Isao's Journey is a game developed together with colleagues from the DDVJ degree at the UJI, with the goal of informing and engaging younger audiences about the important work of <em>Doctors Without Borders</em>.</p>
+      <p>Accompany our protagonist through diverse and varied territories in his important mission to help those most in need. Exploration, investigation and mini-games — all woven into a heartfelt adventure made by G9Devs.</p>
+    </div>
+  </div>
 
-		<footer id="fh5co-footer" class="js-fh5co-waypoint">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 text-center">
-						<p><small>Design by <a href="http://freehtml5.co/" target="_blank">FREEHTML5.co</a></small> </p>
-						<ul class="fh5co-social">
-							<li>
-								<a href="https://twitter.com/EdithKamerman"><i class="icon-twitter"></i></a>
-							</li>
-							<li>
-								<a href="https://github.com/EdithKA"><i class="icon-github"></i></a>
-							</li>
-							<li>
-								<a href="https://www.linkedin.com/in/edith-kamerman-537aba2a6/"><i class="icon-linkedin"></i></a>
-							</li>
-							<li>
-								<a href="mailto:edith.kamerman.dev@gmail.com"><i class="icon-mail2"></i></a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</footer>
+  <div class="section-block reveal">
+    <span class="block-label">Gameplay</span>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/Cmg7TeyDL2s?si=8-cauDCgH0sdAOPb"
+        title="Isao's Journey gameplay" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+      </iframe>
+    </div>
+  </div>
 
-	</div>
+  <div class="section-block reveal">
+    <span class="block-label">Poster</span>
+    <div class="img-block">
+      <img src="images/posterdef.jpg" alt="Isao's Journey poster">
+      <div class="img-caption">Official poster — G9Devs</div>
+    </div>
+  </div>
 
+  <div class="section-block reveal">
+    <span class="block-label">My role</span>
+    <h2 class="block-title">What I worked on</h2>
+    <div class="roles-grid">
+      <span class="role-item">Game Design</span>
+      <span class="role-item">Unity Development</span>
+      <span class="role-item">UI / UX</span>
+    </div>
+  </div>
 
+  <div class="section-block reveal">
+    <span class="block-label">Links</span>
+    <h2 class="block-title">Play it</h2>
+    <div class="link-block">
+      <a href="https://g9devs.itch.io/isaos-journey" class="project-ext-link" target="_blank">
+        Play on Itch.io <span class="ext-arrow"></span>
+      </a>
+    </div>
+  </div>
 
-	</body>
+  <div class="project-nav reveal">
+    <a href="index.html" class="proj-nav-link">← Back to projects</a>
+    <a href="one_piece.html" class="proj-nav-link">Next: One Piece Wiki →</a>
+  </div>
+
+</div>
+
+<div class="pixel-divider"></div>
+<footer>
+  <span class="footer-mono">Edith Kamerman Aguilar</span>
+  <span class="footer-mono">Game Designer & Developer</span>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div'); s.classList.add('star');
+    const sz = Math.random() < 0.7 ? 2 : 4;
+    s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*4}s`;
+    starsEl.appendChild(s);
+  }
+  const reveals = document.querySelectorAll('.reveal');
+  new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 }).observe ? document.querySelectorAll('.reveal').forEach(el => new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold: 0.1 }).observe(el)) : reveals.forEach(r => r.classList.add('visible'));
+</script>
+</body>
 </html>
-
