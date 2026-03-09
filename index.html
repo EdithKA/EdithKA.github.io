@@ -861,6 +861,19 @@
       </div>
     </div>
 
+    <!-- The In-Between -->
+    <div class="project-card reveal">
+      <div class="project-visual">
+        <img src="images/inbetween/mall_corridor.jpg" alt="The In-Between">
+      </div>
+      <div class="project-info">
+        <span class="project-tag">Survival Horror · Unity · TFG</span>
+        <h3 class="project-title">The In-Between</h3>
+        <p class="project-desc">A first-person survival horror set in liminal spaces of the 2000s. Irene is trapped in a nightmare built from her own memories — explore, survive, and find the way out.</p>
+        <a href="the_inbetween.html" class="project-link">View project <span class="pixel-arrow"></span></a>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -882,37 +895,31 @@
       <div class="skill-item">
         <span class="skill-name">Game Design</span>
         <div class="skill-bar-track">
-          <div class="skill-bar-fill" style="--w: 90%"></div>
+          <div class="skill-bar-fill" style="--w: 60%"></div>
         </div>
       </div>
       <div class="skill-item">
         <span class="skill-name">Unity / Game Development</span>
         <div class="skill-bar-track">
-          <div class="skill-bar-fill" style="--w: 82%"></div>
+          <div class="skill-bar-fill" style="--w: 100%"></div>
         </div>
       </div>
       <div class="skill-item">
         <span class="skill-name">3D Modeling</span>
         <div class="skill-bar-track">
-          <div class="skill-bar-fill" style="--w: 78%"></div>
+          <div class="skill-bar-fill" style="--w: 50%"></div>
         </div>
       </div>
       <div class="skill-item">
-        <span class="skill-name">JavaScript / Web Dev</span>
+        <span class="skill-name">Art & Illustration</span>
         <div class="skill-bar-track">
-          <div class="skill-bar-fill" style="--w: 75%"></div>
-        </div>
-      </div>
-      <div class="skill-item">
-        <span class="skill-name">Pixel Art & Illustration</span>
-        <div class="skill-bar-track">
-          <div class="skill-bar-fill" style="--w: 85%"></div>
+          <div class="skill-bar-fill" style="--w: 30%"></div>
         </div>
       </div>
       <div class="skill-item">
         <span class="skill-name">Narrative Design</span>
         <div class="skill-bar-track">
-          <div class="skill-bar-fill" style="--w: 80%"></div>
+          <div class="skill-bar-fill" style="--w: 60%"></div>
         </div>
       </div>
     </div>
@@ -928,7 +935,7 @@
   <p class="contact-desc reveal">Whether it's a collaboration, a project, or just a conversation — I'd love to hear from you.</p>
 
   <div class="contact-links reveal">
-    <a href="mailto:edith.kamerman.dev@gmail.com" class="contact-link">
+    <a href="/cdn-cgi/l/email-protection#88edece1fce0a6e3e9e5edfae5e9e6a6ecedfec8efe5e9e1e4a6ebe7e5" class="contact-link">
       ✉ Email
     </a>
     <a href="https://github.com/EdithKA" class="contact-link" >
@@ -952,7 +959,7 @@
   <span class="footer-mono">Game Designer & Developer</span>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Custom cursor
   const cursor = document.getElementById('cursor');
   document.addEventListener('mousemove', e => {
@@ -1025,13 +1032,4 @@
         // Animate skill bars
         const bars = entry.target.querySelectorAll ? entry.target.querySelectorAll('.skill-bar-fill') : [];
         bars.forEach(bar => {
-          setTimeout(() => bar.classList.add('animated'), 300);
-        });
-      }
-    });
-  }, { threshold: 0.12 });
-
-  reveals.forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
+          setTimeout(() => bar.cla
