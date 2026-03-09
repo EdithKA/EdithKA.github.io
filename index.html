@@ -895,31 +895,37 @@
       <div class="skill-item">
         <span class="skill-name">Game Design</span>
         <div class="skill-bar-track">
-          <div class="skill-bar-fill" style="--w: 60%"></div>
+          <div class="skill-bar-fill" style="--w: 90%"></div>
         </div>
       </div>
       <div class="skill-item">
         <span class="skill-name">Unity / Game Development</span>
         <div class="skill-bar-track">
-          <div class="skill-bar-fill" style="--w: 100%"></div>
+          <div class="skill-bar-fill" style="--w: 82%"></div>
         </div>
       </div>
       <div class="skill-item">
         <span class="skill-name">3D Modeling</span>
         <div class="skill-bar-track">
-          <div class="skill-bar-fill" style="--w: 50%"></div>
+          <div class="skill-bar-fill" style="--w: 78%"></div>
         </div>
       </div>
       <div class="skill-item">
-        <span class="skill-name">Art & Illustration</span>
+        <span class="skill-name">JavaScript / Web Dev</span>
         <div class="skill-bar-track">
-          <div class="skill-bar-fill" style="--w: 30%"></div>
+          <div class="skill-bar-fill" style="--w: 75%"></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <span class="skill-name">Pixel Art & Illustration</span>
+        <div class="skill-bar-track">
+          <div class="skill-bar-fill" style="--w: 85%"></div>
         </div>
       </div>
       <div class="skill-item">
         <span class="skill-name">Narrative Design</span>
         <div class="skill-bar-track">
-          <div class="skill-bar-fill" style="--w: 60%"></div>
+          <div class="skill-bar-fill" style="--w: 80%"></div>
         </div>
       </div>
     </div>
@@ -1032,4 +1038,12 @@
         // Animate skill bars
         const bars = entry.target.querySelectorAll ? entry.target.querySelectorAll('.skill-bar-fill') : [];
         bars.forEach(bar => {
-          setTimeout(() => bar.cla
+          setTimeout(() => bar.classList.add('animated'), 300);
+        });
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
