@@ -7,184 +7,73 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Share+Tech+Mono&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --rust: #c4714a;
-    --sand: #e8d5b0;
-    --dusk: #4a3728;
-    --night: #1a1208;
-    --fog: #8fa8a0;
-    --moss: #5a7a5c;
-    --cream: #f5ecd7;
-    --amber: #d4923a;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background-color: var(--night);
-    color: var(--sand);
-    font-family: 'Crimson Pro', serif;
-    font-size: 18px;
-    line-height: 1.7;
-    overflow-x: hidden;
-    cursor: none;
-  }
-  .cursor {
-    position: fixed; width: 8px; height: 8px;
-    background: var(--rust); pointer-events: none; z-index: 9999;
-    box-shadow: 8px 0 0 var(--rust), 0 8px 0 var(--rust), -8px 0 0 var(--rust), 0 -8px 0 var(--rust);
-    transform: translate(-50%, -50%); transition: transform 0.05s;
-  }
-  body::after {
-    content: ''; position: fixed; inset: 0;
-    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
-    pointer-events: none; z-index: 100;
-  }
-  body::before {
-    content: ''; position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 90; opacity: 0.5;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 50;
-    padding: 1.2rem 3rem; display: flex; justify-content: space-between; align-items: center;
-    background: linear-gradient(to bottom, rgba(26,18,8,0.97) 0%, transparent 100%);
-  }
-  .nav-logo { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--fog); letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fog); text-decoration: none; position: relative; transition: color 0.3s; }
-  .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--rust); transition: width 0.3s; }
-  .nav-links a:hover { color: var(--sand); }
-  .nav-links a:hover::after { width: 100%; }
-
-  /* HERO */
-  .project-hero {
-    min-height: 70vh; display: flex; align-items: flex-end;
-    padding: 8rem 3rem 5rem; position: relative; overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, #050508 0%, #0d0a10 30%, #12080f 60%, #1a1208 100%);
-  }
-  .hero-bg::after {
-    content: ''; position: absolute; inset: 0;
-    background: radial-gradient(ellipse at 20% 70%, rgba(74,55,40,0.2) 0%, transparent 55%),
-                radial-gradient(ellipse at 80% 20%, rgba(30,10,30,0.35) 0%, transparent 50%);
-  }
-  .hero-stars { position: absolute; inset: 0; overflow: hidden; }
-  .star { position: absolute; background: var(--sand); image-rendering: pixelated; animation: twinkle 3s infinite; }
-  @keyframes twinkle { 0%, 100% { opacity: 1; } 50% { opacity: 0.15; } }
-
-  /* Liminal glow lines */
-  .hero-bg::before {
-    content: ''; position: absolute; inset: 0;
-    background:
-      repeating-linear-gradient(90deg, transparent 0px, transparent 80px, rgba(196,113,74,0.015) 80px, rgba(196,113,74,0.015) 81px),
-      repeating-linear-gradient(0deg, transparent 0px, transparent 120px, rgba(143,168,160,0.01) 120px, rgba(143,168,160,0.01) 121px);
-  }
-
-  .hero-content { position: relative; z-index: 10; max-width: 700px; }
-  .back-link {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    font-family: 'Share Tech Mono', monospace; font-size: 0.65rem;
-    letter-spacing: 0.15em; text-transform: uppercase; color: var(--fog);
-    text-decoration: none; margin-bottom: 2rem; transition: color 0.2s;
-  }
-  .back-link:hover { color: var(--rust); }
-  .back-arrow { display: inline-block; width: 6px; height: 6px; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
-  .project-number { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.25em; color: var(--rust); display: block; margin-bottom: 1rem; }
-  .project-hero-title { font-family: 'IM Fell English', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--cream); font-weight: 400; line-height: 1.05; margin-bottom: 1rem; text-shadow: 0 2px 30px rgba(196,113,74,0.2); }
-  .project-hero-tagline { font-family: 'IM Fell English', serif; font-style: italic; font-size: 1.2rem; color: var(--fog); }
-
-  .tag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
-  .tag { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--moss); border: 1px solid rgba(90,122,92,0.3); padding: 0.3rem 0.75rem; }
-
-  .pixel-divider { width: 100%; height: 1px; background: repeating-linear-gradient(90deg, var(--dusk) 0px, var(--dusk) 4px, transparent 4px, transparent 8px); }
-
-  /* CONTENT */
-  .project-body { max-width: 900px; margin: 0 auto; padding: 5rem 3rem; }
-  .section-block { margin-bottom: 5rem; }
-  .block-label { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--rust); margin-bottom: 0.75rem; display: block; }
-  .block-title { font-family: 'IM Fell English', serif; font-size: 1.8rem; color: var(--cream); font-weight: 400; margin-bottom: 1.5rem; line-height: 1.1; }
-  .block-text { color: var(--sand); opacity: 0.85; font-size: 1.05rem; line-height: 1.8; }
-  .block-text p + p { margin-top: 1rem; }
-  .block-text em { color: var(--rust); font-style: italic; }
-
-  /* IMAGES */
-  .img-block { margin: 2.5rem 0; border: 1px solid rgba(255,255,255,0.06); overflow: hidden; }
-  .img-block img { width: 100%; display: block; filter: saturate(0.85) brightness(0.95); transition: filter 0.4s; }
-  .img-block:hover img { filter: saturate(1) brightness(1); }
-  .img-caption { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--fog); padding: 0.6rem 1rem; border-top: 1px solid rgba(255,255,255,0.04); }
-
-  .img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin: 2.5rem 0; }
-  .img-grid .img-block { margin: 0; }
-  .img-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; margin: 2.5rem 0; }
-  .img-grid-3 .img-block { margin: 0; }
-
-  /* MECHANICS LIST */
-  .mechanics-list { margin-top: 1.5rem; display: grid; gap: 1rem; }
-  .mechanic-item {
-    display: grid; grid-template-columns: 2.5rem 1fr;
-    gap: 1rem; align-items: start;
-    padding: 1.2rem 1.5rem;
-    border: 1px solid rgba(255,255,255,0.04);
-    background: rgba(255,255,255,0.02);
-  }
-  .mechanic-icon { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--rust); padding-top: 0.3rem; text-align: center; }
-  .mechanic-title { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream); margin-bottom: 0.35rem; }
-  .mechanic-desc { font-size: 0.95rem; color: var(--fog); line-height: 1.6; }
-
-  /* ROLES */
-  .roles-grid { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
-  .role-item { display: flex; align-items: center; gap: 0.5rem; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sand); }
-  .role-item::before { content: '▪'; color: var(--rust); }
-
-  /* STAT BOXES */
-  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin: 2rem 0; }
-  .stat-box { border: 1px solid rgba(196,113,74,0.15); padding: 1.5rem; text-align: center; background: rgba(255,255,255,0.02); }
-  .stat-num { font-family: 'IM Fell English', serif; font-size: 2.2rem; color: var(--rust); display: block; }
-  .stat-label { font-family: 'Share Tech Mono', monospace; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fog); display: block; margin-top: 0.25rem; }
-
-  /* LINKS */
-  .link-block { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; }
-  .project-ext-link {
-    display: inline-flex; align-items: center; gap: 0.6rem;
-    font-family: 'Share Tech Mono', monospace; font-size: 0.65rem;
-    letter-spacing: 0.12em; text-transform: uppercase; color: var(--sand);
-    text-decoration: none; border: 1px solid rgba(196,113,74,0.35);
-    padding: 0.8rem 1.5rem; transition: all 0.3s; position: relative; overflow: hidden;
-  }
-  .project-ext-link::before { content: ''; position: absolute; inset: 0; background: var(--rust); transform: translateX(-101%); transition: transform 0.3s; z-index: -1; }
-  .project-ext-link:hover::before { transform: translateX(0); }
-  .project-ext-link:hover { color: var(--night); border-color: var(--rust); }
-  .ext-arrow { display: inline-block; width: 6px; height: 6px; border-right: 2px solid currentColor; border-top: 2px solid currentColor; transform: rotate(45deg); }
-
-  /* PROJECT NAV */
-  .project-nav { display: flex; justify-content: space-between; align-items: center; padding: 3rem 0; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 3rem; }
-  .proj-nav-link { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fog); text-decoration: none; transition: color 0.2s; }
-  .proj-nav-link:hover { color: var(--rust); }
-
-  footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
-  .footer-mono { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(143,168,160,0.4); }
-
-  .reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.8s ease, transform 0.8s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.5rem; }
-    .project-hero { padding: 7rem 1.5rem 4rem; }
-    .project-body { padding: 4rem 1.5rem; }
-    .img-grid, .img-grid-3 { grid-template-columns: 1fr; }
-    .stat-row { grid-template-columns: 1fr 1fr; }
-    footer { flex-direction: column; gap: 1rem; text-align: center; }
-  }
+  :root { --rust:#c4714a;--sand:#e8d5b0;--dusk:#4a3728;--night:#1a1208;--fog:#8fa8a0;--moss:#5a7a5c;--cream:#f5ecd7;--amber:#d4923a; }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background-color:var(--night);color:var(--sand);font-family:'Crimson Pro',serif;font-size:18px;line-height:1.7;overflow-x:hidden;cursor:none;}
+  .cursor{position:fixed;width:8px;height:8px;background:var(--rust);pointer-events:none;z-index:9999;box-shadow:8px 0 0 var(--rust),0 8px 0 var(--rust),-8px 0 0 var(--rust),0 -8px 0 var(--rust);transform:translate(-50%,-50%);transition:transform 0.05s;}
+  body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:100;}
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:90;opacity:0.5;}
+  nav{position:fixed;top:0;width:100%;z-index:50;padding:1.2rem 3rem;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to bottom,rgba(26,18,8,0.97) 0%,transparent 100%);}
+  .nav-logo{font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:var(--fog);letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;}
+  .nav-links{display:flex;gap:2.5rem;list-style:none;}
+  .nav-links a{font-family:'Share Tech Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--fog);text-decoration:none;position:relative;transition:color 0.3s;}
+  .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:var(--rust);transition:width 0.3s;}
+  .nav-links a:hover{color:var(--sand);}
+  .nav-links a:hover::after{width:100%;}
+  .project-hero{min-height:70vh;display:flex;align-items:flex-end;padding:8rem 3rem 5rem;position:relative;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#050508 0%,#0d0a12 35%,#100810 60%,#1a1208 100%);}
+  .hero-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 15% 70%,rgba(74,55,40,0.18) 0%,transparent 55%),radial-gradient(ellipse at 75% 25%,rgba(40,15,50,0.3) 0%,transparent 50%);}
+  .hero-stars{position:absolute;inset:0;overflow:hidden;}
+  .star{position:absolute;background:var(--sand);image-rendering:pixelated;animation:twinkle 3s infinite;}
+  @keyframes twinkle{0%,100%{opacity:1;}50%{opacity:0.15;}}
+  .hero-content{position:relative;z-index:10;max-width:700px;}
+  .back-link{display:inline-flex;align-items:center;gap:0.5rem;font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--fog);text-decoration:none;margin-bottom:2rem;transition:color 0.2s;}
+  .back-link:hover{color:var(--rust);}
+  .back-arrow{display:inline-block;width:6px;height:6px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);}
+  .project-number{font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.25em;color:var(--rust);display:block;margin-bottom:1rem;}
+  .project-hero-title{font-family:'IM Fell English',serif;font-size:clamp(2.5rem,6vw,4.5rem);color:var(--cream);font-weight:400;line-height:1.05;margin-bottom:1rem;text-shadow:0 2px 30px rgba(196,113,74,0.2);}
+  .project-hero-tagline{font-family:'IM Fell English',serif;font-style:italic;font-size:1.2rem;color:var(--fog);}
+  .tag-row{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1.5rem;}
+  .tag{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--moss);border:1px solid rgba(90,122,92,0.3);padding:0.3rem 0.75rem;}
+  .pixel-divider{width:100%;height:1px;background:repeating-linear-gradient(90deg,var(--dusk) 0px,var(--dusk) 4px,transparent 4px,transparent 8px);}
+  .project-body{max-width:860px;margin:0 auto;padding:5rem 3rem;}
+  .section-block{margin-bottom:4.5rem;}
+  .block-label{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--rust);margin-bottom:0.75rem;display:block;}
+  .block-title{font-family:'IM Fell English',serif;font-size:1.8rem;color:var(--cream);font-weight:400;margin-bottom:1.2rem;line-height:1.1;}
+  .block-text{color:var(--sand);opacity:0.85;font-size:1.05rem;line-height:1.8;}
+  .block-text p+p{margin-top:1rem;}
+  .block-text em{color:var(--rust);font-style:italic;}
+  .roles-grid{display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:1.2rem;}
+  .role-item{display:flex;align-items:center;gap:0.5rem;font-family:'Share Tech Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--sand);}
+  .role-item::before{content:'▪';color:var(--rust);}
+  .video-container{margin:2rem 0;border:1px solid rgba(255,255,255,0.06);overflow:hidden;background:#000;}
+  .video-container video{width:100%;display:block;max-height:520px;object-fit:contain;background:#000;}
+  .video-label{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;color:var(--fog);padding:0.6rem 1rem;border-top:1px solid rgba(255,255,255,0.04);}
+  .img-block{margin:2px 0;border:1px solid rgba(255,255,255,0.06);overflow:hidden;}
+  .img-block img{width:100%;display:block;filter:saturate(0.88) brightness(0.95);transition:filter 0.4s;}
+  .img-block:hover img{filter:saturate(1) brightness(1);}
+  .img-caption{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;color:var(--fog);padding:0.6rem 1rem;border-top:1px solid rgba(255,255,255,0.04);}
+  .img-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin:2rem 0;}
+  .img-grid .img-block{margin:0;}
+  .link-block{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.5rem;}
+  .project-ext-link{display:inline-flex;align-items:center;gap:0.6rem;font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--sand);text-decoration:none;border:1px solid rgba(196,113,74,0.35);padding:0.8rem 1.5rem;transition:all 0.3s;position:relative;overflow:hidden;}
+  .project-ext-link::before{content:'';position:absolute;inset:0;background:var(--rust);transform:translateX(-101%);transition:transform 0.3s;z-index:-1;}
+  .project-ext-link:hover::before{transform:translateX(0);}
+  .project-ext-link:hover{color:var(--night);border-color:var(--rust);}
+  .ext-arrow{display:inline-block;width:6px;height:6px;border-right:2px solid currentColor;border-top:2px solid currentColor;transform:rotate(45deg);}
+  .project-nav{display:flex;justify-content:space-between;align-items:center;padding:3rem 0;border-top:1px solid rgba(255,255,255,0.05);margin-top:3rem;}
+  .proj-nav-link{font-family:'Share Tech Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--fog);text-decoration:none;transition:color 0.2s;}
+  .proj-nav-link:hover{color:var(--rust);}
+  footer{border-top:1px solid rgba(255,255,255,0.05);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;}
+  .footer-mono{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(143,168,160,0.4);}
+  .reveal{opacity:0;transform:translateY(25px);transition:opacity 0.8s ease,transform 0.8s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0);}
+  @media(max-width:768px){nav{padding:1rem 1.5rem;}.nav-links{gap:1.5rem;}.project-hero{padding:7rem 1.5rem 4rem;}.project-body{padding:4rem 1.5rem;}.img-grid{grid-template-columns:1fr;}footer{flex-direction:column;gap:1rem;text-align:center;}}
 </style>
 </head>
 <body>
 <div class="cursor" id="cursor"></div>
-
 <nav>
   <a href="index.html" class="nav-logo">EKA</a>
   <ul class="nav-links">
@@ -199,16 +88,15 @@
   <div class="hero-stars" id="stars"></div>
   <div class="hero-content">
     <a href="index.html" class="back-link"><span class="back-arrow"></span> All projects</a>
-    <span class="project-number">Project 06 — Bachelor's Final Project</span>
+    <span class="project-number">Project 06 — Bachelor's Final Project · UJI 2025</span>
     <h1 class="project-hero-title">The In-Between</h1>
-    <p class="project-hero-tagline">Where nostalgia meets dread — spaces between memory and nightmare.</p>
+    <p class="project-hero-tagline">Where nostalgia meets dread.</p>
     <div class="tag-row">
       <span class="tag">Survival Horror</span>
-      <span class="tag">Unity</span>
-      <span class="tag">C#</span>
+      <span class="tag">Unity · C#</span>
       <span class="tag">AI Programming</span>
       <span class="tag">3D Modeling</span>
-      <span class="tag">TFG · UJI</span>
+      <span class="tag">Game Design</span>
     </div>
   </div>
 </div>
@@ -217,208 +105,117 @@
 
 <div class="project-body">
 
-  <!-- ABOUT -->
   <div class="section-block reveal">
-    <span class="block-label">About the project</span>
+    <span class="block-label">About</span>
     <h2 class="block-title">A nightmare built from forgotten childhood</h2>
     <div class="block-text">
-      <p>Irene wakes up trapped. After a car accident that leaves her in an induced coma, her mind constructs a nightmare world from the liminal spaces of her 2000s childhood — empty malls, dim video rental stores, fast-food restaurants after closing time. She must explore, solve puzzles, and survive the horrors born from her own memories before the corruption consumes her entirely.</p>
-      <p><em>The In-Between</em> is a first-person survival horror game developed in Unity as my Bachelor's Final Project at Universitat Jaume I. The project merges retro PS1/PS2 aesthetics with psychological terror, liminal space atmosphere, and deep nostalgia for the early 2000s. I focused on all the programming systems and 3D object modeling, building everything from the character controller to enemy AI from scratch.</p>
-    </div>
-
-    <div class="stat-row">
-      <div class="stat-box">
-        <span class="stat-num">300h</span>
-        <span class="stat-label">Development time</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-num">180h</span>
-        <span class="stat-label">Programming</span>
-      </div>
-      <div class="stat-box">
-        <span class="stat-num">4</span>
-        <span class="stat-label">Playable levels</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREENSHOTS -->
-  <div class="section-block reveal">
-    <span class="block-label">Gameplay</span>
-    <h2 class="block-title">Wander the spaces between</h2>
-
-    <div class="img-block">
-      <img src="images/inbetween/mall_corridor.jpg" alt="Mall corridor in The In-Between">
-      <div class="img-caption">The shopping mall corridor — one of Irene's liminal childhood memories</div>
-    </div>
-
-    <div class="img-grid">
-      <div class="img-block">
-        <img src="images/inbetween/interaction.jpg" alt="Player interaction system">
-        <div class="img-caption">Object interaction prompt — press [E] to take</div>
-      </div>
-      <div class="img-block">
-        <img src="images/inbetween/player_view.jpg" alt="First person view with mobile phone">
-        <div class="img-caption">First-person view with the retro mobile phone inventory</div>
-      </div>
-    </div>
-
-    <div class="img-grid">
-      <div class="img-block">
-        <img src="images/inbetween/restaurant_puzzle.jpg" alt="Restaurant minigame">
-        <div class="img-caption">Fast-food restaurant puzzle — place the happy meal toys correctly</div>
-      </div>
-      <div class="img-block">
-        <img src="images/inbetween/inspect_menu.jpg" alt="Inspection menu">
-        <div class="img-caption">Inspection system — objects reveal fragments of Irene's story</div>
-      </div>
-    </div>
-
-    <div class="img-grid">
-      <div class="img-block">
-        <img src="images/inbetween/inventory.jpg" alt="Inventory screen">
-        <div class="img-caption">Inventory screen — styled after early 2000s Nokia OS</div>
-      </div>
-      <div class="img-block">
-        <img src="images/inbetween/videoclub.jpg" alt="Video club scenario">
-        <div class="img-caption">The video rental store — find Irene's favourite game for the PS2</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MY ROLE -->
-  <div class="section-block reveal">
-    <span class="block-label">My role</span>
-    <h2 class="block-title">Programming, systems & 3D art</h2>
-    <div class="block-text">
-      <p>This was a joint project with my classmate María Luz Morujo de Prado. While Luz handled scenario design, character & enemy visual design, and the main menu, I was responsible for all programming systems and 3D object modeling.</p>
+      <p>Irene is trapped in an induced coma. Her mind reconstructs the liminal spaces of her 2000s childhood — empty malls, video rental stores, fast-food restaurants after closing — and populates them with horrors born from her own memories. Solve puzzles, manage your sanity, and survive long enough to find the way out.</p>
+      <p><em>The In-Between</em> is a first-person survival horror built in Unity as my Bachelor's Final Project at Universitat Jaume I, developed jointly with a friend. I was responsible for all programming systems and 3D asset modeling.</p>
     </div>
     <div class="roles-grid" style="margin-top:1.5rem;">
       <div class="role-item">Character controller & movement</div>
-      <div class="role-item">Enemy AI (NavMesh + FSM)</div>
+      <div class="role-item">Enemy AI — NavMesh + FSM</div>
       <div class="role-item">Inventory & stats system</div>
       <div class="role-item">Puzzle mechanics</div>
-      <div class="role-item">Retro HUD (Nokia phone UI)</div>
-      <div class="role-item">3D object modeling (Blender)</div>
+      <div class="role-item">Retro Nokia HUD</div>
+      <div class="role-item">3D modeling (Blender)</div>
       <div class="role-item">Sound effects integration</div>
-      <div class="role-item">World corruption system</div>
     </div>
   </div>
 
-  <!-- MECHANICS -->
   <div class="section-block reveal">
-    <span class="block-label">Systems</span>
-    <h2 class="block-title">Built from scratch</h2>
-    <div class="mechanics-list">
-      <div class="mechanic-item">
-        <div class="mechanic-icon">◈</div>
-        <div>
-          <div class="mechanic-title">Character Controller</div>
-          <div class="mechanic-desc">Full first-person movement with sprint stamina, camera bob animations, and raycast-based object interaction. All actions have synced arm animations.</div>
-        </div>
-      </div>
-      <div class="mechanic-item">
-        <div class="mechanic-icon">◈</div>
-        <div>
-          <div class="mechanic-title">Retro Phone HUD</div>
-          <div class="mechanic-desc">Life displayed as battery, sanity as signal bars — styled after a Nokia 3310. Inventory browsable from the in-game phone, keeping the screen clean and immersive.</div>
-        </div>
-      </div>
-      <div class="mechanic-item">
-        <div class="mechanic-icon">◈</div>
-        <div>
-          <div class="mechanic-title">Enemy AI — Finite State Machine</div>
-          <div class="mechanic-desc">Two enemy types (melee and ranged) powered by NavMesh Agent and A* pathfinding. States: Patrol → Chase → Attack. Detection via raycast line-of-sight from enemy "eyes". Sprites rotate to always face the player, replicating the DOOM billboard technique.</div>
-        </div>
-      </div>
-      <div class="mechanic-item">
-        <div class="mechanic-icon">◈</div>
-        <div>
-          <div class="mechanic-title">Puzzle System</div>
-          <div class="mechanic-desc">Centralised PuzzleManager tracks objective states across four areas: the fast-food restaurant, the nursery, the video rental store, and the cinema. Completing puzzles restores sanity, unlocks doors and advances the narrative.</div>
-        </div>
-      </div>
-      <div class="mechanic-item">
-        <div class="mechanic-icon">◈</div>
-        <div>
-          <div class="mechanic-title">Sanity & Corruption</div>
-          <div class="mechanic-desc">Sanity drains near enemies or from extended exploration. As it drops, the environment visually corrupts. Full sanity loss causes death. Objects tied to Irene's memories restore sanity and trigger inner monologue dialogue.</div>
-        </div>
-      </div>
+    <span class="block-label">Gameplay video</span>
+    <h2 class="block-title">See it in action</h2>
+    <div class="video-container">
+      <video controls preload="metadata" poster="images/inbetween/restaurant_puzzle.png">
+        <source src="https://drive.google.com/uc?export=download&id=1kc0UCz__EDiXUxNlxd4298dv_2JEBH2U" type="video/mp4">
+        <p style="color:var(--fog);padding:2rem;text-align:center;font-family:'Share Tech Mono',monospace;font-size:0.75rem;">
+          Your browser can't play this video inline.
+          <a href="https://drive.google.com/file/d/1kc0UCz__EDiXUxNlxd4298dv_2JEBH2U/view?usp=sharing" target="_blank" style="color:var(--rust);">Watch on Google Drive →</a>
+        </p>
+      </video>
+      <div class="video-label">Gameplay demo — The In-Between prototype · 2025</div>
     </div>
   </div>
 
-  <!-- ENEMIES -->
   <div class="section-block reveal">
-    <span class="block-label">Enemy design</span>
-    <h2 class="block-title">Creatures born from memory</h2>
-    <div class="block-text">
-      <p>Enemies use 2D sprites in a 3D environment — the same technique as classic DOOM. Two scripts (<em>AngleToPlayer</em> and <em>EnemySpriteLook</em>) rotate the sprite in real time so it always faces the player, maintaining the retro visual consistency.</p>
-    </div>
+    <span class="block-label">Screenshots</span>
+    <h2 class="block-title">Inside the liminal spaces</h2>
 
-    <div class="img-block" style="margin-top:2rem;">
-      <img src="images/inbetween/ai_diagram.jpg" alt="Enemy AI state diagram">
-      <div class="img-caption">Enemy AI finite state machine — Patrol · Chase · Attack</div>
+    <div class="img-grid">
+      <div class="img-block">
+        <img src="images/inbetween/phone_pickup.png" alt="Picking up the Nokia phone">
+        <div class="img-caption">Finding the Nokia — your inventory and stats live inside it</div>
+      </div>
+      <div class="img-block">
+        <img src="images/inbetween/inventory_meal.png" alt="Inventory screen">
+        <div class="img-caption">Inventory — Depression Meal collected, Nokia OS aesthetic</div>
+      </div>
     </div>
 
     <div class="img-grid">
       <div class="img-block">
-        <img src="images/inbetween/enemy_melee.jpg" alt="Melee enemy attacking">
-        <div class="img-caption">Melee enemy — high damage, short range</div>
+        <img src="images/inbetween/restaurant_puzzle.png" alt="Restaurant puzzle">
+        <div class="img-caption">Restaurant puzzle — place the toys on their correct stands</div>
       </div>
       <div class="img-block">
-        <img src="images/inbetween/enemy_ranged.jpg" alt="Ranged enemy attacking">
-        <div class="img-caption">Ranged enemy — low damage, detects from afar</div>
+        <img src="images/inbetween/crash_dialogue.png" alt="Crash Bandicoot inspection dialogue">
+        <div class="img-caption">"Crash Bandicoot was definitely my childhood" — narrative through objects</div>
+      </div>
+    </div>
+
+    <div class="img-grid">
+      <div class="img-block">
+        <img src="images/inbetween/ps2_interact.png" alt="PS2 in the video club">
+        <div class="img-caption">Video club — insert the right DVD into the PS2 to advance</div>
+      </div>
+      <div class="img-block">
+        <img src="images/inbetween/vhs_shelf.png" alt="VHS shelf model">
+        <div class="img-caption">VHS shelf — texture-mapped cassette covers, modeled in Blender</div>
       </div>
     </div>
   </div>
 
-  <!-- 3D ART -->
   <div class="section-block reveal">
     <span class="block-label">3D Art</span>
     <h2 class="block-title">Objects from another era</h2>
     <div class="block-text">
-      <p>All interactive and decorative objects were modeled in Blender with PS1/PS2-era aesthetics — low-poly meshes with hand-mapped textures. Tube TVs, retro consoles, DVDs, lamps, nursery furniture, and fast-food props contribute to the nostalgic atmosphere.</p>
+      <p>All props were modeled in Blender with PS1/PS2-era aesthetics — low-poly geometry, hand-mapped textures, saturated nostalgic palette.</p>
     </div>
 
-    <div class="img-grid">
+    <div class="img-grid" style="margin-top:2rem;">
       <div class="img-block">
-        <img src="images/inbetween/tv_model.jpg" alt="CRT TV 3D model">
-        <div class="img-caption">CRT television — part of the video club puzzle</div>
+        <img src="images/inbetween/nursery_models.png" alt="Nursery table and chairs">
+        <div class="img-caption">Nursery set — round table, colorful chairs and shape toys</div>
       </div>
       <div class="img-block">
-        <img src="images/inbetween/console_model.jpg" alt="Retro console 3D model">
-        <div class="img-caption">Retro console — key prop for the video club area</div>
+        <img src="images/inbetween/slide_model.png" alt="Playground slide">
+        <div class="img-caption">Playground slide — cheerful shapes in unsettling darkness</div>
       </div>
     </div>
-
     <div class="img-grid">
       <div class="img-block">
-        <img src="images/inbetween/nursery_table.jpg" alt="Nursery table and chairs">
-        <div class="img-caption">Nursery table and chairs — modeled for the daycare level</div>
+        <img src="images/inbetween/crt_model.png" alt="CRT TV">
+        <div class="img-caption">CRT television — key prop for the video club puzzle</div>
       </div>
       <div class="img-block">
-        <img src="images/inbetween/nursery_slide.jpg" alt="Nursery slide">
-        <div class="img-caption">Playground slide — cheerful shapes hiding in the dark</div>
+        <img src="images/inbetween/bench_model.png" alt="Mall bench and planter">
+        <div class="img-caption">Shopping mall bench with planter — 2000s mall atmosphere</div>
       </div>
     </div>
   </div>
 
-  <!-- LINKS -->
   <div class="section-block reveal">
-    <span class="block-label">Links</span>
-    <h2 class="block-title">Explore the project</h2>
     <div class="link-block">
       <a href="https://github.com/EdithKA/The_InBetween" class="project-ext-link" target="_blank">
         GitHub repository <span class="ext-arrow"></span>
       </a>
       <a href="https://drive.google.com/file/d/1kc0UCz__EDiXUxNlxd4298dv_2JEBH2U/view?usp=sharing" class="project-ext-link" target="_blank">
-        Watch gameplay video <span class="ext-arrow"></span>
+        Full gameplay video <span class="ext-arrow"></span>
       </a>
     </div>
   </div>
 
-  <!-- PROJECT NAV -->
   <div class="project-nav">
     <a href="rocktite.html" class="proj-nav-link">← Rocktite</a>
     <a href="index.html#projects" class="proj-nav-link">All projects</a>
@@ -432,14 +229,11 @@
 </footer>
 
 <script>
-  // Cursor
   const cursor = document.getElementById('cursor');
   document.addEventListener('mousemove', e => {
     cursor.style.left = e.clientX + 'px';
     cursor.style.top = e.clientY + 'px';
   });
-
-  // Stars
   const starsContainer = document.getElementById('stars');
   for (let i = 0; i < 80; i++) {
     const star = document.createElement('div');
@@ -448,14 +242,10 @@
     star.style.cssText = `width:${size}px;height:${size}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*4}s;`;
     starsContainer.appendChild(star);
   }
-
-  // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.12 });
   reveals.forEach(el => observer.observe(el));
